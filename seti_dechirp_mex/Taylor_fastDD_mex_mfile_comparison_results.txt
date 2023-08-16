@@ -1,0 +1,121 @@
+>> main_taylorDD_test1
+Testing taylor_DD_mex.c
+Building with 'MinGW64 Compiler (C)'.
+MEX completed successfully.
+Nt=  16 Nr=  31 Nf= 128 max diff= 0,   273 mex vs     0 m msec
+
+Nt=  16 Nr=  31 Nf= 128 max diff= 0,     0 mex vs     1 m msec
+
+Nt=  16 Nr=  31 Nf= 128 max diff= 0,     0 mex vs     1 m msec
+
+Nt=  16 Nr=  31 Nf= 128 max diff= 0,     0 mex vs     1 m msec
+
+Nt=  32 Nr=  63 Nf= 256 max diff= 0,     0 mex vs     2 m msec
+
+Nt=  32 Nr=  63 Nf= 256 max diff= 0,     0 mex vs     1 m msec
+
+Nt=  32 Nr=  63 Nf= 256 max diff= 0,     0 mex vs     1 m msec
+
+Nt=  32 Nr=  63 Nf= 256 max diff= 0,     0 mex vs     1 m msec
+
+Nt=  64 Nr= 127 Nf= 512 max diff= 0,     0 mex vs     3 m msec
+
+Nt=  64 Nr= 127 Nf= 512 max diff= 0,     0 mex vs     3 m msec
+
+Nt=  64 Nr= 127 Nf= 512 max diff= 0,     0 mex vs     2 m msec
+
+Nt=  64 Nr= 127 Nf= 512 max diff= 0,     0 mex vs     2 m msec
+
+Nt= 128 Nr= 255 Nf=1024 max diff= 0,     2 mex vs     9 m msec
+
+Nt= 128 Nr= 255 Nf=1024 max diff= 0,     2 mex vs     9 m msec
+
+Nt= 128 Nr= 255 Nf=1024 max diff= 0,     2 mex vs     9 m msec
+
+Nt= 128 Nr= 255 Nf=1024 max diff= 0,     2 mex vs     9 m msec
+
+Nt= 256 Nr= 511 Nf=2048 max diff= 0,     8 mex vs    38 m msec
+
+Nt= 256 Nr= 511 Nf=2048 max diff= 0,     8 mex vs    38 m msec
+
+Nt= 256 Nr= 511 Nf=2048 max diff= 0,     8 mex vs    37 m msec
+
+Nt= 256 Nr= 511 Nf=2048 max diff= 0,     8 mex vs    37 m msec
+
+Nt= 512 Nr=1023 Nf=4096 max diff= 0,    38 mex vs   184 m msec
+
+Nt= 512 Nr=1023 Nf=4096 max diff= 0,    39 mex vs   182 m msec
+
+Nt= 512 Nr=1023 Nf=4096 max diff= 0,    39 mex vs   177 m msec
+
+Nt= 512 Nr=1023 Nf=4096 max diff= 0,    39 mex vs   179 m msec
+
+Nt=1024 Nr=2047 Nf=8192 max diff= 0,   184 mex vs  1091 m msec
+
+Nt=1024 Nr=2047 Nf=8192 max diff= 0,   172 mex vs  1222 m msec
+
+Nt=1024 Nr=2047 Nf=8192 max diff= 0,   172 mex vs  1057 m msec
+
+Nt=1024 Nr=2047 Nf=8192 max diff= 0,   175 mex vs  1045 m msec
+
+>> main_taylorDD_test1
+Testing fast_DD_mex.c
+Building with 'MinGW64 Compiler (C)'.
+MEX completed successfully.
+Nt=  16 Nr=  33 Nf= 128 max diff= 0,   273 mex vs     1 m msec
+
+Nt=  16 Nr=  33 Nf= 128 max diff= 0,     0 mex vs     1 m msec
+
+Nt=  16 Nr=  33 Nf= 128 max diff= 0,     0 mex vs     1 m msec
+
+Nt=  16 Nr=  33 Nf= 128 max diff= 0,     0 mex vs     1 m msec
+
+Nt=  32 Nr=  65 Nf= 256 max diff= 0,     1 mex vs     2 m msec
+
+Nt=  32 Nr=  65 Nf= 256 max diff= 0,     0 mex vs     1 m msec
+
+Nt=  32 Nr=  65 Nf= 256 max diff= 0,     0 mex vs     1 m msec
+
+Nt=  32 Nr=  65 Nf= 256 max diff= 0,     0 mex vs     1 m msec
+
+Nt=  64 Nr= 129 Nf= 512 max diff= 0,     0 mex vs     2 m msec
+
+Nt=  64 Nr= 129 Nf= 512 max diff= 0,     0 mex vs     3 m msec
+
+Nt=  64 Nr= 129 Nf= 512 max diff= 0,     0 mex vs     3 m msec
+
+Nt=  64 Nr= 129 Nf= 512 max diff= 0,     1 mex vs     3 m msec
+
+Nt= 128 Nr= 257 Nf=1024 max diff= 0,     2 mex vs    10 m msec
+
+Nt= 128 Nr= 257 Nf=1024 max diff= 0,     2 mex vs    10 m msec
+
+Nt= 128 Nr= 257 Nf=1024 max diff= 0,     2 mex vs    12 m msec
+
+Nt= 128 Nr= 257 Nf=1024 max diff= 0,     2 mex vs    10 m msec
+
+Nt= 256 Nr= 513 Nf=2048 max diff= 0,     9 mex vs    42 m msec
+
+Nt= 256 Nr= 513 Nf=2048 max diff= 0,     9 mex vs    42 m msec
+
+Nt= 256 Nr= 513 Nf=2048 max diff= 0,     9 mex vs    42 m msec
+
+Nt= 256 Nr= 513 Nf=2048 max diff= 0,     9 mex vs    44 m msec
+
+Nt= 512 Nr=1025 Nf=4096 max diff= 0,    43 mex vs   207 m msec
+
+Nt= 512 Nr=1025 Nf=4096 max diff= 0,    45 mex vs   203 m msec
+
+Nt= 512 Nr=1025 Nf=4096 max diff= 0,    43 mex vs   201 m msec
+
+Nt= 512 Nr=1025 Nf=4096 max diff= 0,    47 mex vs   218 m msec
+
+Nt=1024 Nr=2049 Nf=8192 max diff= 0,   198 mex vs  1349 m msec
+
+Nt=1024 Nr=2049 Nf=8192 max diff= 0,   188 mex vs  1328 m msec
+
+Nt=1024 Nr=2049 Nf=8192 max diff= 0,   180 mex vs  1140 m msec
+
+Nt=1024 Nr=2049 Nf=8192 max diff= 0,   191 mex vs  1138 m msec
+
+>> 

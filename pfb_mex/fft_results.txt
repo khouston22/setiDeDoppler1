@@ -1,0 +1,129 @@
+>> main_fft_test1
+Testing kiss_fft_mex.c
+Building with 'MinGW64 Compiler (C)'.
+MEX completed successfully.
+N= 512 n-col= 10 max diff= 0, 290.529 mex vs 0.105 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.167 mex vs 0.061 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.318 mex vs 0.293 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.411 mex vs 0.042 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.349 mex vs 0.216 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.109 mex vs 0.019 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.091 mex vs 0.015 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.090 mex vs 0.017 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.086 mex vs 0.011 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.085 mex vs 0.011 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.192 mex vs 0.030 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.218 mex vs 0.033 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.221 mex vs 0.024 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.215 mex vs 0.035 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.224 mex vs 0.037 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.217 mex vs 0.031 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.210 mex vs 0.041 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.213 mex vs 0.031 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.234 mex vs 0.028 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.222 mex vs 0.027 m msec
+
+N=8192 n-col= 10 max diff= 0, 1.556 mex vs 0.386 m msec
+
+N=8192 n-col= 10 max diff= 0, 1.420 mex vs 0.331 m msec
+
+N=8192 n-col= 10 max diff= 0, 1.457 mex vs 0.201 m msec
+
+N=8192 n-col= 10 max diff= 0, 2.228 mex vs 0.209 m msec
+
+N=8192 n-col= 10 max diff= 0, 2.202 mex vs 0.233 m msec
+
+N=8192 n-col= 10 max diff= 0, 2.278 mex vs 0.224 m msec
+
+N=8192 n-col= 10 max diff= 0, 2.270 mex vs 0.186 m msec
+
+N=8192 n-col= 10 max diff= 0, 2.216 mex vs 0.170 m msec
+
+N=8192 n-col= 10 max diff= 0, 2.112 mex vs 0.173 m msec
+
+N=8192 n-col= 10 max diff= 0, 1.415 mex vs 0.145 m msec
+
+>> main_fft_test1
+Testing fft_LR_mex.c
+Building with 'MinGW64 Compiler (C)'.
+MEX completed successfully.
+N= 512 n-col= 10 max diff= 0, 263.402 mex vs 0.094 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.832 mex vs 0.135 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.543 mex vs 0.213 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.761 mex vs 0.067 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.932 mex vs 0.310 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.605 mex vs 0.031 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.551 mex vs 0.040 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.498 mex vs 0.024 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.484 mex vs 0.018 m msec
+
+N= 512 n-col= 10 max diff= 0, 0.458 mex vs 0.017 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.905 mex vs 0.044 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.865 mex vs 0.040 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.805 mex vs 0.032 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.874 mex vs 0.034 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.832 mex vs 0.034 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.825 mex vs 0.034 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.865 mex vs 0.027 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.903 mex vs 0.028 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.895 mex vs 0.040 m msec
+
+N=1024 n-col= 10 max diff= 0, 0.870 mex vs 0.041 m msec
+
+N=8192 n-col= 10 max diff= 0, 6.819 mex vs 0.178 m msec
+
+N=8192 n-col= 10 max diff= 0, 6.954 mex vs 0.220 m msec
+
+N=8192 n-col= 10 max diff= 0, 6.809 mex vs 0.175 m msec
+
+N=8192 n-col= 10 max diff= 0, 6.927 mex vs 0.176 m msec
+
+N=8192 n-col= 10 max diff= 0, 6.803 mex vs 0.167 m msec
+
+N=8192 n-col= 10 max diff= 0, 7.110 mex vs 0.152 m msec
+
+N=8192 n-col= 10 max diff= 0, 6.393 mex vs 0.170 m msec
+
+N=8192 n-col= 10 max diff= 0, 6.311 mex vs 0.151 m msec
+
+N=8192 n-col= 10 max diff= 0, 6.798 mex vs 0.153 m msec
+
+N=8192 n-col= 10 max diff= 0, 6.539 mex vs 0.161 m msec
+
+>> 

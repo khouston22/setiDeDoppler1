@@ -1,0 +1,43 @@
+>> main_taylor_flt_test0
+
+test_python =
+
+     1
+
+n_t=  16 n_freq=  64 k0=  24 m0=   2 max diff= 0,   0.8 sec
+
+n_t=  32 n_freq= 128 k0=  40 m0=   4 max diff= 0,   0.0 sec
+
+n_t=  64 n_freq= 256 k0=  72 m0=   8 max diff= 0,   0.1 sec
+
+n_t= 128 n_freq= 512 k0= 136 m0=  16 max diff= 0,   0.4 sec
+
+n_t= 256 n_freq=1024 k0= 264 m0=  32 max diff= 0,   1.5 sec
+
+n_t= 512 n_freq=2048 k0= 520 m0=  64 max diff= 0,   5.7 sec
+
+n_t=1024 n_freq=4096 k0=1032 m0= 128 max diff= 0,  23.4 sec
+
+>> main_taylor_flt_test0
+
+test_python =
+
+     0
+
+Building with 'MinGW64 Compiler (C)'.
+MEX completed successfully.
+n_t=  16 n_freq=  64 k0=  24 m0=   2 max diff= 0,   0.3 sec
+
+n_t=  32 n_freq= 128 k0=  40 m0=   4 max diff= 0,   0.0 sec
+
+n_t=  64 n_freq= 256 k0=  72 m0=   8 max diff= 0,   0.0 sec
+
+n_t= 128 n_freq= 512 k0= 136 m0=  16 max diff= 0,   0.0 sec
+
+n_t= 256 n_freq=1024 k0= 264 m0=  32 max diff= 0,   0.0 sec
+
+n_t= 512 n_freq=2048 k0= 520 m0=  64 max diff= 0,   0.1 sec
+
+n_t=1024 n_freq=4096 k0=1032 m0= 128 max diff= 0,   0.2 sec
+
+>> 

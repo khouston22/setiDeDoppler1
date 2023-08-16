@@ -1,0 +1,22 @@
+>> main_pfb_eval2
+Ntap=1 RectWin 1.0x 0.05 sec
+Ntap=4 Hann 1.0x 0.42 sec
+Ntap=4 lpf060 1.0x 0.46 sec
+Ntap=4 lpf080 1.0x 0.43 sec
+Ntap=4 lpf100 1.0x 0.44 sec
+Ntap=1 RectWin 1.3x 0.05 sec
+Ntap=4 Hann 1.3x 0.92 sec
+Ntap=4 lpf060 1.3x 0.94 sec
+Ntap=4 lpf080 1.3x 0.93 sec
+Ntap=4 lpf100 1.3x 0.93 sec
+Ntap=1 RectWin 1.5x 0.05 sec
+Ntap=4 Hann 1.5x 0.81 sec
+Ntap=4 lpf060 1.5x 0.80 sec
+Ntap=4 lpf080 1.5x 0.83 sec
+Ntap=4 lpf100 1.5x 0.82 sec
+Ntap=1 RectWin 2.0x 0.19 sec
+Ntap=4 Hann 2.0x 0.94 sec
+Ntap=4 lpf060 2.0x 0.94 sec
+Ntap=4 lpf080 2.0x 0.94 sec
+Ntap=4 lpf100 2.0x 0.97 sec
+>> 

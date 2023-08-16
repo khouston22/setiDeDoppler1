@@ -1,0 +1,10 @@
+copy C:\Users\KMH\anaconda3\Library\bin\mkl_* C:\Users\KMH\anaconda3\lib\site-packages\numpy\core
+
+see https://www.mathworks.com/matlabcentral/answers/427187-problem-with-python-numpy
+
+better approach is to open anaconda prompt window, and type
+
+cd C:\Program Files\MATLAB\R2017b\bin
+matlab
+
+This avoids needing to copy mkl_* files to each site package

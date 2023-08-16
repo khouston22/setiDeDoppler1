@@ -1,0 +1,357 @@
+/* ======================================================================  */
+/* This is a mex function to Taylor-tree-sum a data stream, reference taylorDD3.m */
+/* Based on C code adapted from    */
+/* https://github.com/UCBerkeleySETI/gbt_seti/blob/master/src/rawdopplersearch.c */
+
+// function [det_DD,freq2,df_dt_list,m_list] = ...
+//                  taylorDD3(xx,freq1,T_line,Lf,Lr,Nt,N0,df_dt_min,df_dt_max);
+// %
+// % Function to run energy detection with input xx and 
+// % a range of Doppler drift rates based on a Taylor tree algorithm
+// % Updated algorithm that avoids bit-reversed indexing but produces identical
+// % results to legacy taylor_flt C Code
+// % 
+// % Outputs
+// %
+// % inputs
+// %
+// % xx           n_freq1 x n_time  mag squared time waveforms for each frequency bin (power)
+// % freq1        n_freq1 x 1       PFB bin center freq values
+// % T_line       1 x 1             time sec for each line in spectrogram
+// % Lf           1 x 1             overlap factor in spectrogram (power of 2)
+// % Lr           1 x 1             upsample for drift rate increment
+// % Nt           1 x 1             last stage number of time samples (Nt/N0 is power of 2)
+// % N0           1 x 1             first stage number of time samples
+// % df_dt_min    1 x 1             minimum drift rate to be computed >= -fs^2 (approx)
+// % df_dt_max    1 x 1             maximum drift rate to be computed <= fs^2 (approx)
+// %
+// % outputs
+// %
+// % det_DD       n_freq2 x n_m     integrated energy array
+// % freq2        n_freq2 x 1       det_DD bin center freq values
+// % df_dt_list   n_m x 1           det_DD drift rate Hz/sec array
+// % m_list       n_m x 1           drift rate index array
+// %
+// % where
+// %
+// % n_freq2 = n_freq1/max(Lf/Lr,1)
+// % n_m = depends on df_dt_min, df_dt_max
+// %
+// % Notes
+// %
+// % class of det_DD will be same as class of input xx, e.g. 'double' or 'single'
+// %
+// % Normally n_time will equal Nt.  If n_time<Nt, input will be zero padded and
+// % only n_time lines will be summed. If n_time>Nt input will be truncated and
+// % only Nt integrations will be performed.
+// %
+// % Define bin_bw = bin bandwidth in each pfb bin = fs = sampling rate at
+// % bin output
+// %
+// % Input in xx will have frequency oversampling factor Lf, so 
+// %    delta_freq1 = bin_bw/Lf = freq1(2) - freq1(1)
+// % Output in det_DD does critical frequency sampling factor, so 
+// %    delta_freq2 = bin_bw/Lr = freq2(2) - freq2(1)
+// % Note Lf >= Lr, and Lf must be an integer multiple of Lr
+// %
+// % Output will also have a df_dt increment
+// %    delta_df_dt = df_dt_list(2) - df_dt_list(1),
+// % where delta_df_dt = fs/(Lr*n_time*T_line)
+// %
+// % Normally T_line will equal 1/fs.  Sometimes the spectrogram lines will be
+// % averaged N_preDD times prior to input, so that T_line = N_preDD/fs.
+// % However, this is generally not recommended (though accommodated here),
+// % because the frequency drifts over fs^2/N_preDD will suffer significant
+// % attenuation in the averaging process.
+// % 
+
+
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+#include "mex.h"
+#include "matrix.h"
+
+#if !defined(MAX)
+#define	MAX(A, B)	((A) > (B) ? (A) : (B))
+#endif
+
+#if !defined(MIN)
+#define	MIN(A, B)	((A) < (B) ? (A) : (B))
+#endif
+
+#if !defined(DEBUG)
+#define DEBUG 0
+#endif
+
+void taylor_stage1(float *det_DD1, float *xx_ext, long m_min0, long m_max0, 
+               long Nt, long N0, long n_freq1, long n_freq2, 
+               long LfLr, long dd0);
+void taylor_stage_i(float *det_DD_out, float *det_DD_in, long i_stage,
+                   long m_min0, long m_max0,long Nt, long N0, long n_freq2, 
+                   long dd0);
+void m_limit(long *m_min_i,long *m_max_i,long m_min0,long m_max0,long Ni,long N0);
+
+
+// function [det_DD,freq2,df_dt_list,m_list] = ...
+//                  taylorDD3(xx,freq1,T_line,Lf,Lr,Nt,N0,df_dt_min,df_dt_max);
+
+/* Input Arguments to mex call */
+
+#define	XX_IN	prhs[0]
+#define	FREQ_IN	prhs[1]
+#define	TLine_IN	prhs[2]
+#define	Lf_IN	prhs[3]
+#define	Lr_IN	prhs[4]
+#define	Nt_IN	prhs[5]
+#define	N0_IN	prhs[6]
+#define	dFdTmin_IN	prhs[7]
+#define	dFdTmax_IN	prhs[8]
+
+/* Output Arguments */
+
+#define	DetDD_OUT	plhs[0]
+#define	FREQ_OUT	plhs[1]
+#define	dFdT_OUT	plhs[2]
+#define	mIndex_OUT	plhs[3]
+
+void mexFunction( int nlhs, mxArray *plhs[], 
+		  int nrhs, const mxArray*prhs[] )
+     
+{ 
+  /* Check for proper number of arguments */
+
+  if (nrhs != 9) { 
+    mexErrMsgIdAndTxt( "MATLAB:taylor_DD:invalidNumInputs",
+              "Eight input arguments required."); 
+  } else if (nlhs > 4) {
+    mexErrMsgIdAndTxt( "MATLAB:taylor_DD:maxlhs",
+              "Too many output arguments."); 
+  } 
+
+  long n_freq1 = mxGetM(XX_IN); 
+  long Nt_ = mxGetN(XX_IN);
+
+  if (!mxIsSingle(XX_IN) || (n_freq1==1) || (Nt_==1)) { 
+    mexErrMsgIdAndTxt( "MATLAB:taylor_DD:invalidXX",
+              "taylor_DD requires that XX_IN be a matrix of type SINGLE."); 
+  } 
+
+  long n_freq1_r = mxGetM(FREQ_IN); 
+  long n_freq1_c = mxGetN(FREQ_IN);
+  long n_freq1_ = MAX(n_freq1_r,n_freq1_c);
+
+  if (!mxIsDouble(FREQ_IN) || (n_freq1!=n_freq1_)) { 
+    mexPrintf("n_freq1=%ld vs %ld\n",n_freq1,n_freq1_);
+    mexErrMsgIdAndTxt( "MATLAB:taylor_DD:invalidFreq1",
+              "taylor_DD requires that freq1 be a vector of type Double."); 
+  }  
+    
+  double T_line,dLf,dLr,dNt,dN0,df_dt_min,df_dt_max;
+  double Lf,Lr;
+  long LfLr,Nt,N0;
+
+  memcpy(&T_line, mxGetPr(TLine_IN), (size_t) mxGetElementSize(TLine_IN));
+  memcpy(&Lf, mxGetPr(Lf_IN), (size_t) mxGetElementSize(Lf_IN));
+  memcpy(&Lr, mxGetPr(Lr_IN), (size_t) mxGetElementSize(Lr_IN));
+  memcpy(&dNt, mxGetPr(Nt_IN), (size_t) mxGetElementSize(Nt_IN));
+  memcpy(&dN0, mxGetPr(N0_IN), (size_t) mxGetElementSize(N0_IN));
+  memcpy(&df_dt_min, mxGetPr(dFdTmin_IN), (size_t) mxGetElementSize(dFdTmin_IN));
+  memcpy(&df_dt_max, mxGetPr(dFdTmax_IN), (size_t) mxGetElementSize(dFdTmax_IN));
+
+  LfLr = (long) round(Lf/Lr);
+  Nt = (long) dNt;
+  N0 = (long) dN0;
+
+  long n_freq2 = n_freq1/LfLr;
+
+  #if DEBUG
+    mexPrintf("Checking inputs,n_freq1=%ld,n_freq2=%ld,Nt=%ld,N0=%ld,Lf=%.2f,Lr=%.2f,LfLr=%ld\n",
+           n_freq1,n_freq2,Nt,N0,Lf,Lr,LfLr);
+    mexPrintf("n_freq1=%ld vs %ld, %ld x %ld\n",n_freq1,n_freq1_,n_freq1_r,n_freq1_c);
+  #endif
+
+  if (fabs(LfLr*Lr-Lf)>1e-5) { 
+    mexErrMsgIdAndTxt( "MATLAB:taylor_DD:invalidLfLr",
+              "taylor_DD requires that Lf/Lr be an integer"); 
+  }  
+   
+  /* Copy frequency data into input matrix */ 
+
+  mxArray *freq1_p;
+  double *freq1;
+  
+  freq1_p = mxCreateNumericArray(mxGetNumberOfDimensions(FREQ_IN),
+            mxGetDimensions(FREQ_IN),mxDOUBLE_CLASS, mxREAL);
+  freq1 = (double *) mxGetPr(freq1_p); 
+  memcpy(freq1, mxGetPr(FREQ_IN), (size_t) n_freq1*mxGetElementSize(FREQ_IN));
+  
+  /*
+  /* compute constants
+  */
+
+  double df_bin = freq1[1]-freq1[0];  // may be less than 1/Ts if bins are overlapped
+  double fs = df_bin*Lf;
+  long n_stage = (long) round(log2((double)(Nt/N0)))+1;
+  
+  #if DEBUG
+    mexPrintf("Checking freq parameters\n");
+    mexPrintf("freq1[0]=%.2f,freq1[1]=%.2f,df_bin=%.2f,Lf=%.2f,fs=%.2f,n_stage=%ld\n",
+       freq1[0],freq1[1],df_bin,Lf,fs,n_stage);
+  #endif
+  
+  long m_min0,m_max0,m_min,m_max;
+  m_max0 = (long) ceil((double)df_dt_max*T_line/fs*(Lr*N0-1));
+  m_min0 = (long) floor((double)df_dt_min*T_line/fs*(Lr*N0-1));
+  m_limit(&m_min,&m_max,m_min0,m_max0,Nt,N0);
+  long Nr = m_max - m_min + 1; 
+  long Nr_ext = MAX((m_max0 - m_min0 + 1)*Nt/N0,Nr); 
+  
+  long dd0 = MAX(abs(m_max),abs(m_min));
+  dd0 = (long) pow(2,ceil(log2((double)dd0))+1.);
+  
+  #if DEBUG
+    mexPrintf("Checking drift rate limits\n");
+    mexPrintf("df_dt_min=%.2f,df_dt_max=%.2f,T_line=%.2f,fs=%.2f,Lr=%.2f,N0=%ld\n",
+       df_dt_min,df_dt_max,T_line,fs,Lr,N0);
+    mexPrintf("m_min0=%ld,m_max0=%ld,m_min=%ld,m_max=%ld,Nr=%ld,Nr_ext=%ld,n_stage=%ld,dd0=%ld\n",
+       m_min0,m_max0,m_min,m_max,Nr,Nr_ext,n_stage,dd0);
+  #endif
+
+  /* Copy spectrogram data into input matrix, with zero padding */ 
+
+  mxArray *xx_p;
+  float *xx,*xx_ext;
+  mwSize n_dims,dims[2];
+  dims[0] = Nt;
+  dims[1] = n_freq1;
+
+  xx_p = mxCreateNumericArray(mxGetNumberOfDimensions(XX_IN), 
+            mxGetDimensions(XX_IN),mxSINGLE_CLASS, mxREAL);
+  xx = (float *) mxGetPr(xx_p); 
+  memcpy(xx, mxGetPr(XX_IN), (size_t) Nt*n_freq1*mxGetElementSize(XX_IN));
+
+  #if DEBUG
+    mexPrintf("Checking SG values\n");
+    mexPrintf("xx[0]=%.2f,xx[1]=%.2f,xx[2]=%.2f,xx[3]=%.2f\n",
+       xx[0],xx[1],xx[2],xx[3]);
+  #endif
+  
+  /* Allocate and zero-pad spectrogram data */ 
+
+  long n_freq1_ext = n_freq1 + 2*dd0;
+    
+  xx_ext = (float *)malloc(Nt*n_freq1_ext*sizeof(float)); // no init to zero
+
+  for (long it=0; it<Nt_; it++) {
+    memcpy(&xx_ext[it*n_freq1_ext + dd0], &xx[n_freq1*it], (size_t) n_freq1*sizeof(float));
+    memset(&xx_ext[0],0,dd0*sizeof(float));
+    memset(&xx_ext[it*n_freq1_ext+dd0+n_freq1],0,dd0*sizeof(float));
+  }
+  
+  #if DEBUG
+    mexPrintf("Checking zero pad SG values\n");
+    mexPrintf("zp %.2f %.2f, xx_ext %.2f %.2f %.2f %.2f\n",
+       xx_ext[0],xx_ext[1], xx_ext[dd0+0],xx_ext[dd0+1],xx_ext[dd0+2],xx_ext[dd0+3]);
+  #endif
+  
+  /* allocate work array for output */
+  
+  float *det_DD_work[2];
+  long n_freq2_ext = n_freq2 + 2*dd0;
+  long i_in=1;
+  long i_out=0;
+  long i_stage=1;
+
+  if (0) {
+    det_DD_work[0] = (float *) malloc((size_t) Nr_ext*n_freq2_ext*sizeof(float));
+    det_DD_work[1] = (float *) malloc((size_t) Nr_ext*n_freq2_ext*sizeof(float));
+    /* zero out edge zones at low and high freqs */
+    for (long mm=0; mm<Nr_ext; mm++) {
+      memset(&det_DD_work[0][mm*n_freq2_ext],0,dd0*sizeof(float));
+      memset(&det_DD_work[0][mm*n_freq2_ext+dd0+n_freq2],0,dd0*sizeof(float));
+      memset(&det_DD_work[1][mm*n_freq2_ext],0,dd0*sizeof(float));
+      memset(&det_DD_work[1][mm*n_freq2_ext+dd0+n_freq2],0,dd0*sizeof(float));
+    }
+  } else {
+    det_DD_work[0] = (float *) calloc((size_t) Nr_ext*n_freq2_ext,sizeof(float));
+    det_DD_work[1] = (float *) calloc((size_t) Nr_ext*n_freq2_ext,sizeof(float));
+  }
+  
+  /* first stage processing */
+
+  taylor_stage1(det_DD_work[0],xx_ext,m_min0,m_max0,Nt,N0,n_freq1,n_freq2,LfLr,dd0);
+
+  /* i-th stage processing */
+
+  for (i_stage=2; i_stage<=n_stage; i_stage++) {
+    i_in = i_stage % 2;
+    i_out = (i_stage+1) % 2;
+    #if DEBUG
+      mexPrintf("Begin stage %ld,i_in=%ld,i_out=%ld\n",i_stage,i_in,i_out);
+    #endif
+    taylor_stage_i(det_DD_work[i_out],det_DD_work[i_in],i_stage,m_min0,m_max0,
+                  Nt,N0,n_freq2,dd0);
+  }
+
+  /* Create output matrices for the return arguments */ 
+
+  float *detDD_out,*freq_out,*df_dt_list,*m_list;
+  n_dims = 2;
+  dims[0] = n_freq2;
+  dims[1] = Nr;  
+  DetDD_OUT = mxCreateNumericArray(n_dims,dims,mxSINGLE_CLASS, mxREAL);
+  detDD_out = (float *) mxGetPr(DetDD_OUT);
+  
+  for (long mm=0; mm<Nr; mm++) {
+    for (long i_freq=0; i_freq<n_freq2; i_freq++) {
+      detDD_out[mm*n_freq2+i_freq] = det_DD_work[i_out][mm*n_freq2_ext+dd0+i_freq]/Nt;
+    }
+  }
+  
+  if (nlhs > 1) {
+    n_dims = 2;
+    if (n_freq1_r>n_freq1_c) {
+      dims[0] = n_freq2;
+      dims[1] = 1;
+    } else {
+      dims[0] = 1;
+      dims[1] = n_freq2;
+    }
+    FREQ_OUT = mxCreateNumericArray(n_dims,dims,mxSINGLE_CLASS, mxREAL);
+    freq_out = (float *) mxGetPr(FREQ_OUT); 
+    for (long if2=0; if2<n_freq2; if2++) {
+      freq_out[if2] = freq1[LfLr*if2];
+    }
+  }
+
+  if (nlhs > 2) {
+    n_dims = 2;
+    dims[0] = 1;
+    dims[1] = Nr;
+    dFdT_OUT = mxCreateNumericArray(n_dims,dims,mxSINGLE_CLASS, mxREAL);
+    df_dt_list = (float *) mxGetPr(dFdT_OUT); 
+    for (long m=m_min; m<=m_max; m++) {
+      long mm = m - m_min;
+      df_dt_list[mm] = m*fs/T_line/(Nt*Lr-1);
+    }
+  }
+
+  if (nlhs > 3) {
+    n_dims = 2;
+    dims[0] = 1;
+    dims[1] = Nr;
+    mIndex_OUT = mxCreateNumericArray(n_dims,dims,mxSINGLE_CLASS, mxREAL);
+    m_list = (float *) mxGetPr(mIndex_OUT); 
+    for (long m=m_min; m<=m_max; m++) {
+      long mm = m - m_min;
+      m_list[mm] = m;
+    }
+  }
+
+  free(xx_ext);
+  free(det_DD_work[0]);
+  free(det_DD_work[1]);
+  
+  return;
+}

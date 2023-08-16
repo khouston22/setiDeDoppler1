@@ -1,0 +1,2 @@
+copy C:\Users\KMH\anaconda3\Library\bin\mkl_* C:\Users\KMH\anaconda3\lib\site-packages\numba\core
+

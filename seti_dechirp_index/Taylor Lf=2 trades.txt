@@ -1,0 +1,25 @@
+Lf = 2 selected cases
+
+Extended Taylor DD cases for Lf=2
+Nt= 512 Nr= 512 Nt0= 4 Nr0= 4 Lf=2.00 Lr=1.00 2.0 rmse R 0.40 Q 0.43 mean R -0.00 Q  0.00 Pct R 22 Q 25
+Nt= 512 Nr= 640 Nt0= 4 Nr0= 5 Lf=2.00 Lr=1.25 2.5 rmse R 0.44 Q 0.50 mean R  0.00 Q  0.10 Pct R 25 Q 32
+Nt= 512 Nr= 768 Nt0= 4 Nr0= 6 Lf=2.00 Lr=1.50 3.0 rmse R 0.34 Q 0.39 mean R  0.00 Q -0.00 Pct R 14 Q 20
+Nt= 512 Nr= 896 Nt0= 4 Nr0= 7 Lf=2.00 Lr=1.75 3.5 rmse R 0.31 Q 0.40 mean R -0.00 Q  0.07 Pct R 11 Q 21
+Nt= 512 Nr=1024 Nt0= 4 Nr0= 8 Lf=2.00 Lr=2.00 4.0 rmse R 0.20 Q 0.31 mean R  0.00 Q -0.00 Pct R 1 Q 11
+
+Nt= 640 Nr= 640 Nt0= 5 Nr0= 5 Lf=2.00 Lr=1.00 2.0 rmse R 0.40 Q 0.46 mean R -0.00 Q  0.08 Pct R 22 Q 28
+Nt= 640 Nr= 896 Nt0= 5 Nr0= 7 Lf=2.00 Lr=1.40 2.8 rmse R 0.38 Q 0.45 mean R -0.00 Q  0.06 Pct R 19 Q 27
+Nt= 640 Nr=1024 Nt0= 5 Nr0= 8 Lf=2.00 Lr=1.60 3.2 rmse R 0.42 Q 0.48 mean R  0.22 Q  0.22 Pct R 23 Q 29
+Nt= 640 Nr=1280 Nt0= 5 Nr0=10 Lf=2.00 Lr=2.00 4.0 rmse R 0.20 Q 0.31 mean R -0.00 Q -0.00 Pct R 1 Q 11
+
+Nt= 768 Nr= 768 Nt0= 6 Nr0= 6 Lf=2.00 Lr=1.00 2.0 rmse R 0.40 Q 0.45 mean R  0.00 Q  0.00 Pct R 22 Q 27
+Nt= 768 Nr=1024 Nt0= 6 Nr0= 8 Lf=2.00 Lr=1.33 2.7 rmse R 0.60 Q 0.65 mean R  0.44 Q  0.44 Pct R 43 Q 45
+Nt= 768 Nr=1152 Nt0= 6 Nr0= 9 Lf=2.00 Lr=1.50 3.0 rmse R 0.34 Q 0.42 mean R  0.00 Q  0.08 Pct R 14 Q 24
+Nt= 768 Nr=1280 Nt0= 6 Nr0=10 Lf=2.00 Lr=1.67 3.3 rmse R 0.32 Q 0.40 mean R  0.00 Q -0.00 Pct R 12 Q 21
+Nt= 768 Nr=1536 Nt0= 6 Nr0=12 Lf=2.00 Lr=2.00 4.0 rmse R 0.20 Q 0.32 mean R -0.00 Q -0.00 Pct R 1 Q 13
+
+Nt= 512 Nr= 512 Nt0= 8 Nr0= 8 Lf=2.00 Lr=1.00 2.0 rmse R 0.37 Q 0.43 mean R -0.00 Q  0.00 Pct R 19 Q 25
+Nt= 512 Nr= 704 Nt0= 8 Nr0=11 Lf=2.00 Lr=1.38 2.8 rmse R 0.37 Q 0.45 mean R  0.00 Q  0.05 Pct R 18 Q 27
+Nt= 512 Nr= 768 Nt0= 8 Nr0=12 Lf=2.00 Lr=1.50 3.0 rmse R 0.31 Q 0.40 mean R -0.00 Q  0.00 Pct R 11 Q 21
+Nt= 512 Nr= 832 Nt0= 8 Nr0=13 Lf=2.00 Lr=1.63 3.3 rmse R 0.32 Q 0.42 mean R  0.00 Q  0.07 Pct R 12 Q 24
+Nt= 512 Nr=1024 Nt0= 8 Nr0=16 Lf=2.00 Lr=2.00 4.0 rmse R 0.19 Q 0.32 mean R  0.00 Q -0.00 Pct R 0 Q 12

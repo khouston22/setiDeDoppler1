@@ -1,0 +1,23 @@
+>> main_pfb_mex_test1
+Testing pfb_Lfx_mex.c, do_fft=1
+Building with 'MinGW64 Compiler (C)'.
+MEX completed successfully.
+Lf=1.00 N_tap= 4 M=4096  lpf114 n_freq= 4096 n_out=512 max diff= 0,  556 mex vs   61 m msec
+
+Lf=1.00 N_tap= 4 M=4096  lpf114 n_freq= 4096 n_out=512 max diff= 0,   39 mex vs   64 m msec
+
+Lf=1.25 N_tap= 4 M=4096  lpf094 n_freq= 5120 n_out=512 max diff= 0,   88 mex vs  236 m msec
+
+Lf=1.33 N_tap= 4 M=4104  lpf092 n_freq= 5472 n_out=512 max diff= 0,  134 mex vs  226 m msec
+
+Lf=1.50 N_tap= 4 M=4096  lpf080 n_freq= 6144 n_out=512 max diff= 0,   75 mex vs  158 m msec
+
+Lf=1.75 N_tap= 4 M=4096  lpf070 n_freq= 7168 n_out=512 max diff= 0,  107 mex vs  290 m msec
+
+Lf=2.00 N_tap= 4 M=4096  lpf057 n_freq= 8192 n_out=512 max diff= 0,   65 mex vs  124 m msec
+
+Lf=3.00 N_tap= 4 M=4096  lpf050 n_freq=12288 n_out=512 max diff= 0,   94 mex vs  180 m msec
+
+Lf=4.00 N_tap= 4 M=4096  lpf050 n_freq=16384 n_out=512 max diff= 0,  133 mex vs  226 m msec
+
+>> 
