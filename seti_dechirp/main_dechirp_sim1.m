@@ -77,6 +77,8 @@ for i_run = 1:n_run
   if use_mex && (i_run==1)
     fprintf('Testing using mex functions\n');
     mex ../pfb_mex/pfb_Lfx_mex.c ../pfb_mex/pfb_fns.c ../pfb_mex/kiss_fft.c
+    mex ../seti_dechirp_mex/taylor_DD_mex.c ../seti_dechirp_mex/taylor_DD_fns.c
+    mex ../seti_dechirp_mex/fast_DD_mex.c ../seti_dechirp_mex/taylor_DD_fns.c ../seti_dechirp_mex/fast_DD_fns.c
   end
   
   %
