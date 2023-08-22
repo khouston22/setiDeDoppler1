@@ -6,7 +6,7 @@ https://doi.org/10.1016/j.actaastro.2023.08.009.
 
 Link to 2023 Acta Astronautica paper:  https://authors.elsevier.com/sd/article/S0094-5765(23)00408-3
 
-Code is in Matlab.  In general, any “main----.m” file is the main executable script
+Code is in Matlab.  In general, any “main----.m” file is the main executable script.  Output is to .png plot files written to a subdirectory.
 
 Description of directories:
 
