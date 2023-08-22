@@ -6,13 +6,13 @@ https://doi.org/10.1016/j.actaastro.2023.08.009.
 
 Link to 2023 Acta Astronautica paper:  https://authors.elsevier.com/sd/article/S0094-5765(23)00408-3
 
-Code is in Matlab.  In general, any “main----.m” file is 
+Code is in Matlab.  In general, any “main----.m” file is the main executable script
 
 Description of directories:
 
 seti_dechirp: main De-Doppler analysis code
 
-seti_dechirp_mex: C-code files for De-Doppler
+seti_dechirp_mex: C-code files for De-Doppler, and comparisons to original Taylor DD code
 
 pfb: polyphase filter bank and chirp signal generation code
 
